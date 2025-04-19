@@ -1,5 +1,6 @@
 from pen_functions import *
 import re
+from datetime import datetime
 
 
 def extract(text):
@@ -14,7 +15,7 @@ def extract(text):
     return cleaned_text, reading
 
 
-def make_subtitle(jp_text, en_text, color_palette):
+def make_subtitle(jp_text, en_text, color_palette=None):
     """
     makes the subtitle out of jp and en text.
     :arg jp_text: each section should be split up by pipes (|), with furigana after kanji. example: 皆(みな)さん|どうも
@@ -22,6 +23,14 @@ def make_subtitle(jp_text, en_text, color_palette):
                   the Japanese sentence. For example, the above JP would be (2)Hello|(1)everyone!
     :arg color_palette: the colors that are cycled through to color code words. should be a list of tuples: (r, g, b, a)
     """
+
+    # default colors
+    if not color_palette:
+        color_palette = [
+            (255, 227, 253, 255), (177, 152, 245, 255), (158, 215, 255, 255), (203, 242, 213, 255),
+            (255, 251, 194, 255), (255, 177, 158, 255), (255, 94, 136, 255), (255, 255, 255, 255)
+        ]
+
     cursor = TextWriter()
     clean_jp = re.sub(r"\(.*?\)", "", jp_text).replace("|", "")
     cursor.set_pos((center_start(clean_jp, font=jp_font), from_bottom(160)))
@@ -45,11 +54,12 @@ def make_subtitle(jp_text, en_text, color_palette):
 
         cursor.scrawl(clean_en, color_palette[int(i)-1])
 
-    cursor.canvas.show()
+    # TODO have save location, don't really care rn tho
+    cursor.canvas.save(f"C:\\Users\\a_rubbern\\Downloads\\caption_files\\{datetime.today().strftime("%m-%d-%y %H_%M.png")}")
+    # cursor.canvas.show()
 
 
 if __name__ == "__main__":
     make_subtitle(
         "皆(みな)さん|どうもこんばんは", "(2)Good morning|(1)everyone!",  # jp and en text
-        [(255, 227, 253, 255), (177, 152, 245, 255), (158, 215, 255, 255)]  # color palette
     )

@@ -1,7 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
-jp_font = ImageFont.truetype("BIZ-UDGothicR.ttc", 50)
+jp_font = ImageFont.truetype("BIZ-UDGothicR.ttc", 60)
 en_font = ImageFont.truetype("arial.ttf", 50)
-furigana = ImageFont.truetype("BIZ-UDGothicR.ttc", 20)
+furigana = ImageFont.truetype("BIZ-UDGothicR.ttc", 30)
 frame = (1920, 1080)
 
 
@@ -15,7 +15,7 @@ def _int(thing_to_int):
 def from_bottom(y):
     """takes the y position from the bottom of the canvas and returns the position from the top
     (example: 20 pixels from the bottom is 1900 pixels from the top)"""
-    return 1080-y
+    return frame[1]-y
 
 
 def center_start(text, font=jp_font):
@@ -72,7 +72,7 @@ class TextWriter:
             else:
                 # write the furigana
                 self.pen.text(
-                    (self.cursor_x, self.cursor_y-30),         # position
+                    (self.cursor_x, self.cursor_y-40),         # position
                     reading, fill=color, font=furigana,     # text
                     stroke_width=5 if stroke else 0, stroke_fill=(0, 0, 0, 255)  # stroke
                 )
