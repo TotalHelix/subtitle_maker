@@ -8,3 +8,6 @@ other uses.
 
 the `EN>JP` dropdown links the coloring of the English and Japanese
 sections, this should line up with the index number on the far left.
+
+The main program is the file `gui_controller.py`, or download from the
+[release page](https://github.com/TotalHelix/subtitle_maker/releases).
