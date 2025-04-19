@@ -1,12 +1,34 @@
 import tkinter as tk
+from datetime import datetime
+from tkinter.filedialog import asksaveasfilename
 from subtitle_maker import make_subtitle
 
 window = tk.Tk()
 window.title("Subtitle Generator")
 window.wm_geometry("500x310")
+window.wm_minsize(width=500, height=200)
 panels = []  # list of lists: [panel, jp_entry, jp_reading, en_pos (optionsmenu), en_pos (stringvar), en_entry]
-panel_holder = tk.Frame(window, pady=15, padx=15)
+title_panel = tk.Frame(window, pady=1, padx=15)
+panel_holder = tk.Frame(window, pady=1, padx=15)
+title_panel.pack()
 panel_holder.pack()
+
+# Title panel to label each column
+tk.Label(title_panel, text="#").pack(side="left")
+
+japanese = tk.Label(title_panel, text="Japanese",   width=18)
+furigana = tk.Label(title_panel, text="Furigana",   width=10)
+english = tk.Label(title_panel, text="English",     width=17)
+padding = tk.Label(title_panel,                     width=4)
+en_pos = tk.Label(title_panel, text="EN>JP",        width=10)
+
+japanese.pack(side="left")
+furigana.pack(side="left")
+english.pack(side="right")
+padding.pack(side="left")
+en_pos.pack(side="right")
+
+title_panel.pack(pady=5)
 
 
 def update_dropdowns():
@@ -66,7 +88,10 @@ def generate_caption():
 
     print("full_en", full_en[:-1])
     print("full jp:", full_jp[:-1])
-    make_subtitle(full_jp[:-1], full_en[:-1])
+
+    output_location = asksaveasfilename(defaultextension=".png", filetypes=[("PNG Image", "*.png")], initialfile=datetime.today().strftime("%m-%d-%y %I%M%p.png"))
+    print("output:", output_location)
+    make_subtitle(full_jp[:-1], full_en[:-1], output_location)
 
 
 # submit button

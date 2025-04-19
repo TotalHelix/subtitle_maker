@@ -1,7 +1,5 @@
 from pen_functions import *
 import re
-from datetime import datetime
-
 
 def extract(text):
     """extract text in parentheses"""
@@ -15,12 +13,13 @@ def extract(text):
     return cleaned_text, reading
 
 
-def make_subtitle(jp_text, en_text, color_palette=None):
+def make_subtitle(jp_text, en_text, output_location, color_palette=None):
     """
     makes the subtitle out of jp and en text.
     :arg jp_text: each section should be split up by pipes (|), with furigana after kanji. example: 皆(みな)さん|どうも
     :arg en_text: like jp text, sections should be split by pipes, but each section should start with its position in
                   the Japanese sentence. For example, the above JP would be (2)Hello|(1)everyone!
+    :arg output_location: the file to save the output as
     :arg color_palette: the colors that are cycled through to color code words. should be a list of tuples: (r, g, b, a)
     """
 
@@ -54,11 +53,12 @@ def make_subtitle(jp_text, en_text, color_palette=None):
 
         cursor.scrawl(clean_en, color_palette[int(i)-1])
 
-    # TODO have save location, don't really care rn tho
-    cursor.canvas.save(f"C:\\Users\\a_rubbern\\Downloads\\caption_files\\{datetime.today().strftime("%m-%d-%y %H_%M.png")}")
+    cursor.canvas.save(output_location)
+    # cursor.canvas.save(save_location+datetime.today().strftime("%m-%d-%y %H_%M.png"))
     # cursor.canvas.show()
 
 
+# if running just the subtitle maker without the gui, here's some sample input
 if __name__ == "__main__":
     make_subtitle(
         "皆(みな)さん|どうもこんばんは", "(2)Good morning|(1)everyone!",  # jp and en text
